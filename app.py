@@ -1,20 +1,25 @@
-#!/usr/bin/python
-
 import time
 from flask import Flask
+
 app = Flask(__name__)
 
 START = time.time()
 
 def elapsed():
-    running = time.time() - START
-    minutes, seconds = divmod(running, 60)
-    hours, minutes = divmod(minutes, 60)
-    return "%d:%02d:%02d" % (hours, minutes, seconds)
+    running = int(time.time() - START)
+    hours = running // 3600
+    minutes = (running % 3600) // 60
+    seconds = running % 60
+    return f"{hours}:{minutes:02d}:{seconds:02d}"
 
 @app.route('/')
-def root():
-    return "Hello World (Python)! (up %s)\n" % elapsed()
+def home():
+    return f"""
+    <h2>🚀 Hello World (Python)</h2>
+    <p>App is running on port 5000</p>
+    <p>Uptime: {elapsed()}</p>
+    """
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    # 👇 Only port 5000
+    app.run(host="0.0.0.0", port=5000)
